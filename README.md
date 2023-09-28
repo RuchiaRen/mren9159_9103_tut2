@@ -1,1 +1,3 @@
-# mren9159_9103_tut2
+# myNewRepo
+
+This is a repo that I will use to learn github.
