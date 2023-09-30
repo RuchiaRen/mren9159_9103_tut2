@@ -9,3 +9,4 @@
 - To create the illusion of water, I can use a sine wave to produce a gentle, continuous oscillation and optimize the code according to this coding tutorial. For example, **y = sin(x)** creates a pleasing wobbly line. I adjust the phase using time: **y = sin(x - time)** to add animation. This results in a delightful animated wave that moves from left to right. I'll implement features like mouse-click interactions to enhance interactivity, enabling users to interact with the water.
 
 - ![An image of the Coding Example](readmeImages/Coding Example)
+- [Link Text](https://slembcke.github.io/WaterWaves)
