@@ -3,10 +3,11 @@ let smallerGrass = [];
 let stems = [];
 let leave = [];
 let smallerleave = [];
+let backgroundColor = 242;
 
 function setup() {
   createCanvas(300, 600);
-  background(242,169,4); 
+  background(backgroundColor); 
 
   //Setting attributes for the stem objects that represent huge leaves' stems
   stems = [
@@ -70,11 +71,14 @@ function setup() {
     new Small(260, 430, color(107, 33, 33), 1, 8),
     new Small(220, 490, color(0, 0, 0), -1, 6)
   ];
+
+  // Set initial background color based on keyboard input
+  setColorBasedOnKey();
 }
 
 
 function draw() {
-  background(242,169,4); 
+  background(backgroundColor);
   frameRate(1);
 
   //Draw the pink and black dots
@@ -128,7 +132,7 @@ function draw() {
   fill(229, 82, 139);  
   ellipse(115, 455, 45, 30);  
   
-  //Display all the class object that were setup in setup function
+  // Display all the class objects that were set up in the setup function
   for (let grass of smallerGrass) {
     grass.display();
   }
@@ -136,13 +140,13 @@ function draw() {
   for (let stem of stems) {
     stem.display();
   }
-  
+
   for (let sLeaf of smallerLeave) {
     sLeaf.display();
   }
 
-  for (let leaf of leave) {
-    leaf.display();
+  for (let l of leave) {
+    l.display();
   }
 }
 
@@ -534,5 +538,38 @@ class Smallerleave {
       endShape();
       pop()
     }
+  }
+}
+
+function setColorBasedOnKey() {
+  if (keyIsDown(82)) { // 'R' key pressed
+    backgroundColor = color(255, 0, 0); // Red background
+  } else if (keyIsDown(71)) { // 'G' key pressed
+    backgroundColor = color(0, 255, 0); // Green background
+  } else if (keyIsDown(66)) { // 'B' key pressed
+    backgroundColor = color(0, 0, 255); // Blue background
+  } else {
+    backgroundColor = color(242, 169, 4); // Default background
+  }
+}
+
+function keyPressed() {
+  setColorBasedOnKey();
+}
+
+function mousePressed() {
+  // Randomly change the color of the grass when the mouse is clicked
+  for (let grass of smallerGrass) {
+    grass.color = color(random(255), random(255), random(255));
+  }
+
+  // Randomly change the color of the leaves when the mouse is clicked
+  for (let l of leave) {
+    l.lColor = color(random(255), random(255), random(255));
+  }
+
+  // Randomly change the color of the smaller leaves when the mouse is clicked
+  for (let sLeaf of smallerLeave) {
+    sLeaf.ColorS = color(random(255), random(255), random(255));
   }
 }
