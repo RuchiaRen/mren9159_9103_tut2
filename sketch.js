@@ -557,11 +557,11 @@ class Smallerleave {
 
 function setColorBasedOnKey() {
   if (keyIsDown(82)) { // 'R' key pressed
-    backgroundColor = color(255, 0, 0); // Red background
+    backgroundColor = color(236, 33, 10); // Red background
   } else if (keyIsDown(71)) { // 'G' key pressed
-    backgroundColor = color(0, 255, 0); // Green background
+    backgroundColor = color(80, 182, 2); // Green background
   } else if (keyIsDown(66)) { // 'B' key pressed
-    backgroundColor = color(0, 0, 255); // Blue background
+    backgroundColor = color(70, 181, 255); // Blue background
   } else {
     backgroundColor = color(242, 169, 4); // Default background
   }
