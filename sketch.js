@@ -3,9 +3,8 @@ let smallerGrass = [];
 let stems = [];
 let leave = [];
 let smallerleave = [];
-let selectedElement = null; // Store the currently selected element
-let offsetX, offsetY; // Offset to track mouse position relative to the selected element
 let backgroundColor = 242;
+let grassSpeed = 5; // Initial animation speed
 
 function setup() {
   createCanvas(300, 600);
@@ -81,7 +80,23 @@ function setup() {
 
 function draw() {
   background(backgroundColor);
-  frameRate(30); // Adjust the frame rate for smoother animation
+  frameRate(10); // Adjust the frame rate for smoother animation
+
+  // Update grass elements based on mouse position
+  for (let grass of smallerGrass) {
+    let angle = atan2(mouseY - grass.y, mouseX - grass.x);
+    let speed = dist(grass.x, grass.y, mouseX, mouseY) * 0.05 * grassSpeed;
+    grass.x += cos(angle) * speed;
+    grass.y += sin(angle) * speed;
+
+    // Wrap around when grass goes off the canvas
+    if (grass.x < -10) grass.x = width + 10;
+    if (grass.x > width + 10) grass.x = -10;
+    if (grass.y < -10) grass.y = height + 10;
+    if (grass.y > height + 10) grass.y = -10;
+
+    grass.display();
+  }
 
   //Draw the pink and black dots
   for (let i = 0; i < numDots; i++) {
@@ -96,16 +111,6 @@ function draw() {
     }
     noStroke();
     ellipse(x, y, size);
-  }
-
-  // Update and display grass elements
-  for (let grass of smallerGrass) {
-    if (grass === selectedElement) {
-      // If the grass is selected, update its position based on mouse drag
-      grass.x = mouseX - offsetX;
-      grass.y = mouseY - offsetY;
-    }
-    grass.display();
   }
 
   //Calling functions to draw three huge grass 
@@ -252,6 +257,7 @@ function grass1() {
     }
   }
 }
+
 // Flip the secound huge grass as well
 function FlippedGrass1() {
   push();  
@@ -563,23 +569,14 @@ function setColorBasedOnKey() {
 
 function keyPressed() {
   setColorBasedOnKey();
-}
 
-function mousePressed() {
-  // Check if the mouse is over any grass element and select it for dragging
-  for (let grass of smallerGrass) {
-    if (mouseX > grass.x && mouseX < grass.x + 10 && mouseY > grass.y && mouseY < grass.y + 60) {
-      selectedElement = grass;
-      offsetX = mouseX - grass.x;
-      offsetY = mouseY - grass.y;
-      break; // Stop searching for grass elements once one is selected
-    }
+  // Use 'UP' and 'DOWN' arrow keys to control animation speed
+  if (keyCode === UP_ARROW) {
+    frameRate(frameRate() + 1); // Increase the frame rate
+  } else if (keyCode === DOWN_ARROW) {
+    frameRate(frameRate() - 1); // Decrease the frame rate
+    frameRate(1, 30)
   }
-}
-
-function mouseReleased() {
-  // Release the selected element
-  selectedElement = null;
 }
 
 class Grass {
