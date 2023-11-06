@@ -3,6 +3,8 @@ let smallerGrass = [];
 let stems = [];
 let leave = [];
 let smallerleave = [];
+let selectedElement = null; // Store the currently selected element
+let offsetX, offsetY; // Offset to track mouse position relative to the selected element
 let backgroundColor = 242;
 
 function setup() {
@@ -79,7 +81,7 @@ function setup() {
 
 function draw() {
   background(backgroundColor);
-  frameRate(1);
+  frameRate(30); // Adjust the frame rate for smoother animation
 
   //Draw the pink and black dots
   for (let i = 0; i < numDots; i++) {
@@ -94,6 +96,16 @@ function draw() {
     }
     noStroke();
     ellipse(x, y, size);
+  }
+
+  // Update and display grass elements
+  for (let grass of smallerGrass) {
+    if (grass === selectedElement) {
+      // If the grass is selected, update its position based on mouse drag
+      grass.x = mouseX - offsetX;
+      grass.y = mouseY - offsetY;
+    }
+    grass.display();
   }
 
   //Calling functions to draw three huge grass 
@@ -133,10 +145,6 @@ function draw() {
   ellipse(115, 455, 45, 30);  
   
   // Display all the class objects that were set up in the setup function
-  for (let grass of smallerGrass) {
-    grass.display();
-  }
-
   for (let stem of stems) {
     stem.display();
   }
@@ -558,18 +566,33 @@ function keyPressed() {
 }
 
 function mousePressed() {
-  // Randomly change the color of the grass when the mouse is clicked
+  // Check if the mouse is over any grass element and select it for dragging
   for (let grass of smallerGrass) {
-    grass.color = color(random(255), random(255), random(255));
+    if (mouseX > grass.x && mouseX < grass.x + 10 && mouseY > grass.y && mouseY < grass.y + 60) {
+      selectedElement = grass;
+      offsetX = mouseX - grass.x;
+      offsetY = mouseY - grass.y;
+      break; // Stop searching for grass elements once one is selected
+    }
+  }
+}
+
+function mouseReleased() {
+  // Release the selected element
+  selectedElement = null;
+}
+
+class Grass {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
   }
 
-  // Randomly change the color of the leaves when the mouse is clicked
-  for (let l of leave) {
-    l.lColor = color(random(255), random(255), random(255));
-  }
-
-  // Randomly change the color of the smaller leaves when the mouse is clicked
-  for (let sLeaf of smallerLeave) {
-    sLeaf.ColorS = color(random(255), random(255), random(255));
+  display() {
+    fill(this.color);
+    stroke(this.color);
+    strokeWeight(1);
+    rect(this.x, this.y, 10, 60);
   }
 }
